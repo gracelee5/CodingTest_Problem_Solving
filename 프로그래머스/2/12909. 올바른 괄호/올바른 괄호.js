@@ -1,23 +1,23 @@
 function solution(s){
     var answer = false;
-    var sList = [];
+    var l = 0;
     
     for (let i = 0; i <s.length; i++){
         if(s[0] === ')'){
         return false;
         }
         if(s[i]==='('){
-            sList.push(s[i]);
+            l++;
         }else{
-            if(sList.length>0){
-                sList.pop();
+            if(l>0){
+                l--
             }else{
                 return false;
             }
         }
     }
     
-    if(sList.length == 0){
+    if(l === 0){
         return true;
     }
 
