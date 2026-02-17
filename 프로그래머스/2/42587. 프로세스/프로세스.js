@@ -1,17 +1,22 @@
 function solution(priorities, location) {
-    var answer = 0;
-    const array = priorities.map((process, index)=>{
-        return {process, index};
-    })
+    let answer = 0;
+    let array = [];
+    let max_value = Math.max(...priorities);
     
-    while (array.length != 0){
-        const queue = array.shift();
-        
-        if(array.some((element)=> element.process > queue.process)){
-            array.push(queue);
+    for (let i = 0; i<priorities.length; i++){
+        array.push(i);
+    }
+    
+    while(priorities.length != 0){
+        let max_value = Math.max(...priorities);
+        if(priorities[0] < max_value){
+            priorities.push(priorities.shift());
+            array.push(array.shift());
         }else{
             answer++;
-            if(queue.index === location) break;
+            if(array[0] === location) break;
+            priorities.shift();
+            array.shift();
         }
     }
     return answer;
