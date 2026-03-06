@@ -1,27 +1,27 @@
 function solution(keymap, targets) {
-    var answer = [];
+    let map = {};
     
-    for (let i = 0; i< targets.length; i++){
-        var result = 0;
-        for (let j = 0; j<targets[i].length; j++){
-            let click = 100;
-            for (let k = 0; k < keymap.length; k++){
-                if(keymap[k].includes(targets[i][j])){
-                    let index = keymap[k].indexOf(targets[i][j])+1;
-                    if(index<click){
-                        click = index;
-                    }
-                }
-            }
-            result += click;
-            
-            if(click === 100){
-                result = -1;
+    for (let key of keymap){
+        for (let i = 0; i <key.length; i++){
+            let char = key[i];
+            map[char] = map[char] ? Math.min(map[char], i+1) : i +1;
+        }
+    }
+    let answer = [];
+    
+    for (let target of targets){
+        let sum = 0;
+        let possible = true;
+        
+        for(let char of target){
+            if(!map[char]){
+                possible = false;
                 break;
             }
+            sum += map[char];
         }
         
-        answer.push(result);
+        answer.push(possible ? sum : -1);
     }
     return answer;
 }
