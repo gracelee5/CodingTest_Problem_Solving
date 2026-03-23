@@ -5,20 +5,21 @@ function solution(answers) {
         [2,1,2,3,2,4,2,5],
         [3,3,1,1,2,2,4,4,5,5]
     ];
-    
-    var score = [0,0,0];
-    
-    for (let i = 0; i<answers.length; i++){
-        for (let j = 0; j <patterns.length; j++){
-            if(answers[i] == patterns[j][i%patterns[j].length]){
-                score[j]++;
+    let scoreList = [];
+    let score = 0;
+    for (let pattern of patterns){
+        for(let i = 0; i < answers.length; i++){
+            if(pattern[i%pattern.length] === answers[i]){
+                score++;
             }
         }
+        scoreList.push(score);
+        score = 0;
     }
     
-    const max = Math.max(...score);
-    for(let i = 0; i<score.length; i++){
-        if(max == score[i]){
+    const max = Math.max(...scoreList);
+    for(let i = 0; i < scoreList.length; i++){
+        if(scoreList[i] === max){
             answer.push(i+1);
         }
     }
