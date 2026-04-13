@@ -1,73 +1,50 @@
 class MinHeap {
-  constructor() {
-    this.heap = [];
-  }
-
-  size() {
-    return this.heap.length;
-  }
-      
-    // 값을 넣되, 오름차 순 정렬함
-  push(value) {
-    this.heap.push(value);
-    let currentIndex = this.heap.length - 1;
-
-    while (
-      currentIndex > 0 &&
-      this.heap[currentIndex] < this.heap[Math.floor((currentIndex - 1) / 2)]
-    ) {
-      const temp = this.heap[currentIndex];
-      this.heap[currentIndex] = this.heap[Math.floor((currentIndex - 1) / 2)];
-      this.heap[Math.floor((currentIndex - 1) / 2)] = temp;
-      currentIndex = Math.floor((currentIndex - 1) / 2);
+    constructor() {this.h = [];}
+    
+    push(v) {
+        this.h.push(v);
+        let i = this.h.length - 1;
+        while(i>0){
+            let p = (i-1) >>1;
+            if(this.h[p] <= this.h[i]) break;
+            [this.h[p], this.h[i]] = [this.h[i], this.h[p]];
+            i = p;
+        }
     }
-  }
-
-    // 값을 빼되, 오름차 순 정렬 함
-  pop() {
-    if (this.heap.length === 0) return null;
-    if (this.heap.length === 1) return this.heap.pop();
-
-    const minValue = this.heap[0];
-    this.heap[0] = this.heap.pop();
-    let currentIndex = 0;
-
-    while (currentIndex * 2 + 1 < this.heap.length) {
-      let minChildIndex = currentIndex * 2 + 2 < this.heap.length && this.heap[currentIndex * 2 + 2] < this.heap[currentIndex * 2 + 1] ? currentIndex * 2 + 2 : currentIndex * 2 + 1;
-
-      if (this.heap[currentIndex] < this.heap[minChildIndex]) {
-        break;
+    
+    pop() {
+        if(this.h.length === 1) return this.h.pop();
+        const top = this.h[0];
+        this.h[0] = this.h.pop();
+        
+        let i = 0;
+        while (true){
+            let l = i*2 + 1, r = i*2+2, s = i;
+            if (l < this.h.length && this.h[l] < this.h[s]) s = l;
+            if (r < this.h.length && this.h[r] < this.h[s]) s = r;
+            if (s === i) break;
+            [this.h[i], this.h[s]] = [this.h[s], this.h[i]];
+            i = s;
+        }
+        return top;
       }
 
-      const temp = this.heap[currentIndex];
-      this.heap[currentIndex] = this.heap[minChildIndex];
-      this.heap[minChildIndex] = temp;
-      currentIndex = minChildIndex;
+      peek() { return this.h[0]; }
+      size() { return this.h.length; 
+        }
     }
-
-    return minValue;
-  }
-
-  peek() {
-    return this.heap[0];
-  }
-}
 
 function solution(scoville, K) {
-    const minHeap = new MinHeap();
+    const heap = new MinHeap();
+    scoville.forEach(v=>heap.push(v));
     
-    for (const sco of scoville){
-        minHeap.push(sco)
+    let count = 0;
+    
+    while (heap.size() > 1 && heap.peek() < K){
+        const a = heap.pop();
+        const b = heap.pop();
+        heap.push(a+b*2);
+        count ++;
     }
-    
-    let mixedCount = 0;
-    
-    while (minHeap.size() >= 2 && minHeap.peek() < K) {
-        const first = minHeap.pop();
-        const second = minHeap.pop();
-        const mixedScov = first + second*2;
-        minHeap.push(mixedScov);
-        mixedCount++;
-    }
-    return minHeap.peek() >= K ? mixedCount : -1;
+    return heap.peek() >= K ? count : -1;
 }
