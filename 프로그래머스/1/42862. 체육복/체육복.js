@@ -1,16 +1,13 @@
 function solution(n, lost, reserve) {
-    let newlost = lost.filter(l=> !reserve.includes(l));//잃어버렸는데 가진 애들은 미리 제거
-    let newreserve = reserve.filter(r=> !lost.includes(r));
-    newlost.sort((a,b)=> a-b);
-    newreserve.sort((a,b)=>a-b);
+    let newLost = lost.filter((l)=>!reserve.includes(l)).sort((a,b)=>a-b); //잃어버렸는데 여벌 체육복 가져온 학생 제거
+    reserve = reserve.filter((r)=>!lost.includes(r)).sort((a,b)=>a-b);
     
-    let lostStudent = newlost.length;
+    let lostStudent = newLost.length;
     
-    for(let l of newlost){
-        let sets = [l-1,l+1];//잃어버린 학생이 받을 수 있는 체육복들
-        for (let i = 0; i<newreserve.length; i++){
-            if(sets.includes(newreserve[i])){
-                newreserve.splice(i,1);
+    for(let l of newLost){
+        for(let i = 0; i<reserve.length; i++){
+            if(reserve[i] === l-1 ||reserve[i] === l+1){
+                reserve.splice(i,1);
                 lostStudent--;
                 break;
             }
