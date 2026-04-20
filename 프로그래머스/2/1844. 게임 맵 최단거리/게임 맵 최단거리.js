@@ -1,30 +1,27 @@
 function solution(maps) {
-  const n = maps.length;
-  const m = maps[0].length;
-  const dy = [0, 1, 0, -1];
-  const dx = [1, 0, -1, 0];
-  const q = [];
-  
-  q.push([0,0,1]);
+    const height = maps.length;
+    const width = maps[0].length;
     
-  while(q.length){
-      const [y,x,cnt] = q.shift();
-      
-      if(y===n-1 && x===m-1) return cnt;
-      
-      for(let i=0; i<4; i++){
-          const ny=y+dy[i];
-          const nx=x+dx[i];
-          if(inRange(ny,nx)){
-              maps[ny][nx]=0;
-              q.push([ny,nx,cnt+1]);
-          }
-      }
-  }
-
-  function inRange(y, x) {
-    return 0 <= y && y < n && 0 <= x && x < m && maps[y][x] === 1;
-  }
+    const dx = [1,-1,0,0];
+    const dy = [0,0,1,-1];
+    const queue = [];
     
+    queue.push([0,0,1])
+    
+    while(queue.length){
+        const [y,x,cnt] = queue.shift();
+        if(y===height-1 && x===width-1) return cnt;
+        
+        for(let i = 0; i < 4; i++){
+            let ny = y + dy[i];
+            let nx = x + dx[i];
+            if(ny>=0&&ny<height && nx>=0 && nx < width && maps[ny][nx] === 1){
+                maps[ny][nx] = 0;
+                queue.push([ny,nx,cnt+1]);
+            }
+        }
+        
+        
+    }
   return -1
 }
