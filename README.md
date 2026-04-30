@@ -18,4 +18,4 @@ JavaScript
 
 ## 풀이 방식
 - 꾸준히 풀이를 기록하며, 풀지 못한 문제는 풀이 후 다시 작성하여 학습합니다.
-- ([블로그](https://velog.io/@gracelee5/series/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8%EC%8A%A4))에 핵심 풀이 정리를 함께 작성합니다.
+- [블로그](https://velog.io/@gracelee5/series/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8%EC%8A%A4)에 핵심 풀이 정리를 함께 작성합니다.
